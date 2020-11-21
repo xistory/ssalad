@@ -4,6 +4,12 @@ import { Button, Divider } from 'react-native-elements';
 import { Feather } from '@expo/vector-icons';
 
 const IndexScreen = ({ navigation }) => {
+    const navigationOptions = {
+        title: '스톡홀름 샐러드',
+        headerStyle: {
+            backgroundColor: '#080f2a',
+        },
+    };
     return (
         <View style={{flexDirection: 'column', flex: 1, justifyContent: 'space-between'}}>
             <View style={{flex: 3,
