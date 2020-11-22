@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, StyleSheet, Text, Button, StatusBar, TouchableOpacity, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { AuthContext } from '../../App';
 
 
 const HomeScreen = ({ navigation }) => {
+    const { signOut } = useContext(AuthContext);
     return (
-            <SafeAreaView style={styles.safe}>
+        <SafeAreaView style={styles.safe}>
             <StatusBar barStyle="light-content" backgroundColor="#080f2a" />
-
-
 
             <View style={styles.greeting}>
                 <Text style={styles.text}>어서오세요 자이스토리님!!</Text>
@@ -21,89 +21,81 @@ const HomeScreen = ({ navigation }) => {
             </View>
 
 
-
-
-
             <View style={styles.menu}>
+                <View style={styles.menuLeft}>
 
+                    <View style={styles.charge}>
+                        <TouchableOpacity>
+                            <Image
+                                source={require('../../assets/charge.png')}
+                                style={{
+                                    height: 100,
+                                    width: 100,
+                                }}
+                            />
+                            <Text style={styles.buttonText}>
+                                충전
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
 
-            <View style={styles.menuLeft}>
+                    <View style={styles.saladMenu}>
+                        <TouchableOpacity>
+                            <Text style={styles.buttonText}>메뉴 확인</Text>
+                        </TouchableOpacity>
+                    </View>
 
-            <View style={styles.charge}>
-            <TouchableOpacity>
-            <Image
-        source={require('../../assets/charge.png')}
-        style={{
-            height: 100,
-            width: 100,
-        }}
-            />
-            <Text style={styles.buttonText}>
-            충전
-            </Text>
-            </TouchableOpacity>
-        </View>
+                    <View style={styles.history}>
+                        <TouchableOpacity
+                            onPress={() => navigation.navigate('Payment')}
+                        >
+                            <Text style={styles.buttonText}>충전금 내역</Text>
+                        </TouchableOpacity>
+                    </View>
 
-            <View style={styles.saladMenu}>
-            <TouchableOpacity>
-            <Text style={styles.buttonText}>메뉴 확인</Text>
-            </TouchableOpacity>
-            </View>
+                </View>
 
-            <View style={styles.history}>
-            <TouchableOpacity
-        onPress={() => navigation.navigate('Payment')}
-            >
-            <Text style={styles.buttonText}>충전금 내역</Text>
-            </TouchableOpacity>
-            </View>
+                <View style={styles.menuRight}>
 
-            </View>
+                    <View style={styles.cameraPay}>
+                        <TouchableOpacity>
+                            <Image
+                                source={require('../../assets/camera.png')}
+                                style={{
+                                    height: 100,
+                                    width: 100,
+                                }}
+                            />
+                            <Text style={styles.buttonText}>
+                                카메라 결제
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
 
+                    <View style={styles.inven}>
+                        <TouchableOpacity>
+                            <Text style={styles.buttonText}>재고 확인</Text>
+                        </TouchableOpacity>
+                    </View>
 
-            <View style={styles.menuRight}>
+                    <View style={styles.delivery}>
+                        <TouchableOpacity>
+                            <Text style={styles.buttonText}>스샐의 민족</Text>
+                        </TouchableOpacity>
+                    </View>
 
-            <View style={styles.cameraPay}>
-            <TouchableOpacity>
-            <Image
-        source={require('../../assets/camera.png')}
-        style={{
-            height: 100,
-            width: 100,
-        }}
-            />
-            <Text style={styles.buttonText}>
-            카메라 결제
-        </Text>
-            </TouchableOpacity>
-            </View>
-
-            <View style={styles.inven}>
-            <TouchableOpacity>
-            <Text style={styles.buttonText}>재고 확인</Text>
-            </TouchableOpacity>
-            </View>
-
-            <View style={styles.delivery}>
-            <TouchableOpacity>
-            <Text style={styles.buttonText}>스샐의 민족</Text>
-            </TouchableOpacity>
-            </View>
-
-            </View>
+                </View>
 
 
             </View>
-
-
-
 
 
             <View style={styles.ad}>
-            <Text style={styles.text}>광고</Text>
+                <Text style={styles.text}>광고</Text>
+                <Button title="Sign out" onPress={() => signOut()} />
             </View>
 
-            </SafeAreaView>
+        </SafeAreaView>
     );
 };
 
@@ -118,7 +110,6 @@ const styles = StyleSheet.create({
         flex: 3,
         marginLeft: 30,
         marginRight: 30,
-        
     },
     gradeText: {
         flexDirection: 'row',
