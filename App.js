@@ -2,6 +2,7 @@ import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Provider as PointProvider } from './src/context/PointContext';
 
 
 import HomeScreen from './src/screens/HomeScreen';
@@ -31,7 +32,7 @@ Amplify.configure({
     API: {
         endpoints: [
             {
-                name: "notes",
+                name: "points",
                 endpoint: config.apiGateway.URL,
                 region: config.apiGateway.REGION
             },
@@ -141,6 +142,7 @@ function App() {
 
 
     return (
+        <PointProvider>
         <AuthContext.Provider value={authContext}>
         <SafeAreaProvider>
             <NavigationContainer>
@@ -186,6 +188,7 @@ function App() {
             </NavigationContainer>
         </SafeAreaProvider>
         </AuthContext.Provider>
+        </PointProvider>
     );
 }
 
