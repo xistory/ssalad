@@ -6,8 +6,10 @@ import { Context as PointContext } from '../context/PointContext';
 const PaymentScreen = ({ navigation }) => {
     const { state, getBalance, getDetails } = useContext(PointContext);
     const [details, setDetails] = useState([]);
+    const [isLoading, setLoading] = useState(false);
 
     useEffect(() => {
+        setLoading(false);
         getBalance();
         getDetails();
     }, []);
@@ -16,6 +18,7 @@ const PaymentScreen = ({ navigation }) => {
         if (state.details) {
             setDetails(state.details.filter(detail => detail.pointId !== 'balance'));
         };
+        setLoading(true);
     }, [state]);
 
 
@@ -64,7 +67,7 @@ const PaymentScreen = ({ navigation }) => {
 
 
             <View style={styles.details}>
-                {state.details ? (
+                {isLoading ? (
                      <View style={styles.select}>
                          <TouchableOpacity onPress={() => {
                                  setDetails(state.details.filter(detail => detail.pointId !== 'balance'));

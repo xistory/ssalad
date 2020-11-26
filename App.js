@@ -7,9 +7,12 @@ import { Provider as PointProvider } from './src/context/PointContext';
 
 import HomeScreen from './src/screens/HomeScreen';
 import PaymentScreen from './src/screens/PaymentScreen';
+import ChargeScreen from './src/screens/ChargeScreen';
+
 import SignInScreen from './src/screens/SignInScreen';
 import SignUpScreen from './src/screens/SignUpScreen';
 import SplashScreen from './src/screens/SplashScreen';
+
 
 import Amplify from 'aws-amplify';
 import { Auth } from 'aws-amplify';
@@ -180,7 +183,12 @@ function App() {
                              component={HomeScreen}
                              options={{ title: 'Stockholm Salad' }}
                          />
-                         <Stack.Screen name="Payment" component={PaymentScreen} />
+                        <Stack.Screen name="Payment" component={PaymentScreen} />
+                        <Stack.Screen
+                            name="Charge"
+                            component={ChargeScreen}
+                        options={{ title: '충전' }}
+                        />
                          </>
                     )}
 

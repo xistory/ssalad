@@ -25,7 +25,7 @@ const HomeScreen = ({ navigation }) => {
                 <View style={styles.menuLeft}>
 
                     <View style={styles.charge}>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={() => navigation.navigate('Charge')}>
                             <Image
                                 source={require('../../assets/charge.png')}
                                 style={{
