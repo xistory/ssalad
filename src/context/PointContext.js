@@ -5,8 +5,6 @@ const pointReducer = (state, action) => {
     switch (action.type) {
     case 'get_balance':
         return action.payload;
-    case 'delete_blogpost':
-        return state.filter(blogPost => blogPost.id !== action.payload);
     case 'get_details':
         return { ...state, details: action.payload };
     default:
@@ -25,19 +23,20 @@ const getBalance = dispatch => {
     };
 };
 
-const addBlogPost = dispatch => {
-    return async (title, content, callback) => {
-//        await jsonServer.post('/blogposts', { title, content });
+const chargeBalance = dispatch => {
+    return async (plus, cashAmount, pAmount) => {
 
-        if (callback) {
-            callback();
+        console.log(cashAmount);
+
+        const init = false;
+
+        try {
+            await API.post("points", "/points", {
+                body: { init, plus, cashAmount, pAmount }
+            });
+        } catch (e) {
+            console.log(e);
         }
-    };
-};
-const deleteBlogPost = dispatch => {
-    return async id => {
-//        await jsonServer.delete(`/blogposts/${id}`);
-        dispatch({ type: 'delete_blogpost', payload: id })
     };
 };
 
@@ -54,6 +53,6 @@ const getDetails = dispatch => {
 
 export const { Context, Provider } = createDataContext(
     pointReducer,
-    { addBlogPost, deleteBlogPost, getDetails, getBalance },
+    { chargeBalance , getDetails, getBalance },
     []
 );

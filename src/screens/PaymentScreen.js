@@ -7,29 +7,22 @@ const PaymentScreen = ({ navigation }) => {
     const { state, getBalance, getDetails } = useContext(PointContext);
     const [details, setDetails] = useState([]);
     const [isLoading, setLoading] = useState(false);
+    const [details_origin, setOrigin] = useState([]);
 
     useEffect(() => {
         setLoading(false);
         getBalance();
         getDetails();
+
+        
     }, []);
 
     useEffect(() => {
         if (state.details) {
-            setDetails(state.details.filter(detail => detail.pointId !== 'balance'));
+            setOrigin(state.details.filter(detail => detail.pointId !== 'balance'));
         };
         setLoading(true);
     }, [state]);
-
-
-    function charge() {
-        setDetails(state.details.filter(detail => (detail.pointId !== 'balance') && detail.plus));
-    };
-
-    function pay() {
-        setDetails(state.details.filter(detail => (detail.pointId !== 'balance') && !detail.plus));
-    };
-
 
 
 
@@ -70,19 +63,19 @@ const PaymentScreen = ({ navigation }) => {
                 {isLoading ? (
                      <View style={styles.select}>
                          <TouchableOpacity onPress={() => {
-                                 setDetails(state.details.filter(detail => detail.pointId !== 'balance'));
+                                 setDetails(details_origin);
                          }}>
                              <Text>전체</Text>
                          </TouchableOpacity>
                          <Text>  |  </Text>
                          <TouchableOpacity onPress={() =>
-                             setDetails(state.details.filter(detail => (detail.pointId !== 'balance') && detail.plus))
+                             setDetails(details_origin.filter(detail => detail.plus))
                          }>
                              <Text>충전</Text>
                          </TouchableOpacity>
                          <Text>  |  </Text>
                          <TouchableOpacity onPress={() =>
-                             setDetails(state.details.filter(detail => (detail.pointId !== 'balance') && !detail.plus))
+                             setDetails(details_origin.filter(detail => !detail.plus))
                          }>
                              <Text>사용</Text>
                          </TouchableOpacity>

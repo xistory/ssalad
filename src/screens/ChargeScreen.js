@@ -1,10 +1,12 @@
 import React, {useContext, useEffect, useState } from 'react';
 import { View, StyleSheet, Text, Button, StatusBar } from 'react-native';
+import { RadioButton } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Context as PointContext } from '../context/PointContext';
 
 const ChargeScreen = () => {
-    const { state, getBalance } = useContext(PointContext);
+    const { state, getBalance, chargeBalance } = useContext(PointContext);
+    const [value, setValue] = useState('5000');
 
     useEffect(() => {
         getBalance();
@@ -33,8 +35,19 @@ const ChargeScreen = () => {
 
 
             <View style={styles.chargeList}>
-                <Text>charge list</Text>
+                <RadioButton.Group onValueChange={value => setValue(value)} value={value}>
+                    <RadioButton.Item label="5000 캐시" value="5000" />
+                    <RadioButton.Item label="10000 캐시" value="10000" />
+                    <RadioButton.Item label="20000 캐시" value="20000" />
+                    <RadioButton.Item label="50000 캐시" value="50000" />
+                </RadioButton.Group>
             </View>
+            <Button title="충전" onPress={async () => {
+                    const valueInt = parseInt(value);
+                    await chargeBalance(true, valueInt, 0);
+                    // true means plus
+                    getBalance();
+            }} />
 
         </SafeAreaView>
     )

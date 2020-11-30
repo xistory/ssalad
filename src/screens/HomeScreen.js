@@ -1,23 +1,73 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { View, StyleSheet, Text, Button, StatusBar, TouchableOpacity, Image } from 'react-native';
+import { ProgressBar } from 'react-native-paper';
+
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AuthContext } from '../../App';
+import { Context as PointContext } from '../context/PointContext';
 
 
 const HomeScreen = ({ navigation }) => {
     const { signOut } = useContext(AuthContext);
+    const [isLoading, setLoading] = useState(false);
+    const { state, getBalance } = useContext(PointContext);
+    const [accumPoint, setAccum] = useState('');
+
+    useEffect(() => {
+        setLoading(false);
+        getBalance();
+    }, [])
+
+    useEffect(() => {
+        if (state.accumPoint !== undefined) {
+            setAccum(state.accumPoint);
+        };
+        setLoading(true);
+    }, [state]);
+
+    function setupGrade(accumPoint) {
+        if (accumPoint < 2000) {
+            return 'Bronze Potato';
+        } else if (accumPoint < 5000) {
+            return 'Silver Melon';
+        } else if (accumPoint < 10000) {
+            return 'Gold Lettuce';
+        } else if (accumPoint < 30000){
+            return 'Gold Apple';
+        } else {
+            return 'Navy Tomato'
+        }
+    };
+
+    function setMax(accumPoint) {
+        if (accumPoint < 2000) {
+            return 2000;
+        } else if (accumPoint < 5000) {
+            return 5000;
+        } else if (accumPoint < 10000) {
+            return 10000;
+        } else if (accumPoint < 30000){
+            return 30000;
+        } else {
+            return 100000;
+        }
+    };
+
     return (
         <SafeAreaView style={styles.safe}>
             <StatusBar barStyle="light-content" backgroundColor="#080f2a" />
 
             <View style={styles.greeting}>
-                <Text style={styles.text}>어서오세요 자이스토리님!!</Text>
+                <Text style={styles.text}>어서오세요 교찬님!</Text>
                 <View style={styles.gradeText}>
                     <Text style={styles.text}>현재 </Text>
-                    <Text style={styles.yelloText}>Bronze Potato</Text>
+                    <Text style={styles.yelloText}>{setupGrade(parseInt(accumPoint))}</Text>
                     <Text style={styles.text}> 입니다</Text>
                 </View>
-            <TouchableOpacity><Text style={{fontSize:13,color:'#999999'}}>스샐 등급 안내</Text></TouchableOpacity>
+                <TouchableOpacity><Text style={{fontSize:13,color:'#999999'}}>스샐 등급 안내</Text></TouchableOpacity>
+
+                <Text style={{ textAlign: 'right', color: '#ffffff' }}>({accumPoint}/{setMax(parseInt(accumPoint))})</Text>
+                <ProgressBar progress={accumPoint / setMax(parseInt(accumPoint))} color={'#f6c52a'} />
             </View>
 
 
@@ -40,15 +90,32 @@ const HomeScreen = ({ navigation }) => {
                     </View>
 
                     <View style={styles.saladMenu}>
-                        <TouchableOpacity>
+                        <TouchableOpacity
+                            style={{ flexDirection: 'row', }}
+                        >
+                            <Image
+                                source={require('../../assets/menu.png')}
+                                style={{
+                                    height: 60,
+                                    width: 60,
+                                }}
+                            />
                             <Text style={styles.buttonText}>메뉴 확인</Text>
                         </TouchableOpacity>
                     </View>
 
-                    <View style={styles.history}>
+                    <View style={styles.details}>
                         <TouchableOpacity
+                            style={{ flexDirection: 'row', }}
                             onPress={() => navigation.navigate('Payment')}
                         >
+                            <Image
+                                source={require('../../assets/payDetails.png')}
+                                style={{
+                                    height: 60,
+                                    width: 60,
+                                }}
+                            />
                             <Text style={styles.buttonText}>충전금 내역</Text>
                         </TouchableOpacity>
                     </View>
@@ -58,7 +125,9 @@ const HomeScreen = ({ navigation }) => {
                 <View style={styles.menuRight}>
 
                     <View style={styles.cameraPay}>
-                        <TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => navigation.navigate('CameraPay')}
+                        >
                             <Image
                                 source={require('../../assets/camera.png')}
                                 style={{
@@ -73,13 +142,31 @@ const HomeScreen = ({ navigation }) => {
                     </View>
 
                     <View style={styles.inven}>
-                        <TouchableOpacity>
+                        <TouchableOpacity
+                            style={{ flexDirection: 'row', }}
+                        >
+                            <Image
+                                source={require('../../assets/inven.png')}
+                                style={{
+                                    height: 60,
+                                    width: 60,
+                                }}
+                            />
                             <Text style={styles.buttonText}>재고 확인</Text>
                         </TouchableOpacity>
                     </View>
 
                     <View style={styles.delivery}>
-                        <TouchableOpacity>
+                        <TouchableOpacity
+                            style={{ flexDirection: 'row', }}
+                        >
+                            <Image
+                                source={require('../../assets/delivery.png')}
+                                style={{
+                                    height: 60,
+                                    width: 60,
+                                }}
+                            />
                             <Text style={styles.buttonText}>스샐의 민족</Text>
                         </TouchableOpacity>
                     </View>
@@ -135,6 +222,7 @@ const styles = StyleSheet.create({
     buttonText: {
         color: '#e5e5e5',
         textAlign: 'center',
+        alignSelf: 'center',
     },
     yelloText: {
         color: '#f6c52a',
@@ -147,6 +235,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         borderWidth: 0.3,
         borderRightColor: '#ffffff',
+        
     },
     menuRight: {
         flex: 1,
@@ -166,7 +255,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    history: {
+    details: {
         flex: 0.25,
         alignItems: 'center',
         justifyContent: 'center',
