@@ -8,6 +8,7 @@ import { Provider as PointProvider } from './src/context/PointContext';
 import HomeScreen from './src/screens/HomeScreen';
 import PaymentScreen from './src/screens/PaymentScreen';
 import ChargeScreen from './src/screens/ChargeScreen';
+import CameraPayScreen from './src/screens/CameraPayScreen';
 
 import SignInScreen from './src/screens/SignInScreen';
 import SignUpScreen from './src/screens/SignUpScreen';
@@ -183,11 +184,20 @@ function App() {
                              component={HomeScreen}
                              options={{ title: 'Stockholm Salad' }}
                          />
-                        <Stack.Screen name="Payment" component={PaymentScreen} />
+                         <Stack.Screen
+                             name="Payment"
+                             component={PaymentScreen}
+                             options={{ title: '충전금 내역' }}
+                         />
                         <Stack.Screen
-                            name="Charge"
-                            component={ChargeScreen}
-                        options={{ title: '충전' }}
+                             name="Charge"
+                             component={ChargeScreen}
+                             options={{ title: '충전' }}
+                        />
+                        <Stack.Screen
+                             name="CameraPay"
+                             component={CameraPayScreen}
+                             options={{ title: '카메라 결제' }}
                         />
                          </>
                     )}
