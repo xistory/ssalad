@@ -21,7 +21,7 @@
         },
         "android": {
             "package": "com.jaminlab.sslad",
-            "versionCode": 3
+            "versionCode": 6
         },
         "web": {
             "favicon": "./assets/favicon.png"
