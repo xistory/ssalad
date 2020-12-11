@@ -3,26 +3,45 @@ import { View, StyleSheet, Text, StatusBar } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Context as PointContext } from '../context/PointContext';
+// import * as Location from 'expo-location';
 
 const CameraPayScreen = () => {
     const { state, getBalance, chargeBalance } = useContext(PointContext);
-    const [isLoading, setLoading] = useState(false);
+    const [isLoading, setLoading] = useState(true);
     const [salad, setSalad] = useState('');
     const [point, setPoint] = useState('0');
     const [accumPoint, setAccum] = useState('');
     const [disable, setDisable] = useState(true);
+    // const [location, setLocation] = useState(null);
+    // const [errorMsg, setErrorMsg] = useState(null);
+
+    
 
     useEffect(() => {
-        setLoading(false);
-        getBalance();
-    }, [])
-
-    useEffect(() => {
-        if (state.accumPoint !== undefined) {
+        (async () => {
+            await getBalance();
             setAccum(state.accumPoint);
-        };
-        setLoading(true);
-    }, [state]);
+            /*
+            let { status } = await Location.requestPermissionsAsync();
+            if (status !== 'granted') {
+                setErrorMsg('Permission to access location was denied');
+            }
+            let location = await Location.getCurrentPositionAsync({});
+            setLocation(location);
+            */
+
+            setLoading(false);
+        })();
+    }, []);
+
+    /*
+    let text = 'Waiting..';
+    if (errorMsg) {
+        text = errorMsg;
+    } else if (location) {
+        text = JSON.stringify(location);
+    }
+    */
 
     function calculateAccum(accumPoint, saladPrice) {
         if (accumPoint < 2000) {
@@ -41,6 +60,8 @@ const CameraPayScreen = () => {
         <SafeAreaView style={styles.safe}>
             <StatusBar barStyle="light-content" backgroundColor="#080f2a" />
 
+            {!isLoading ?
+
             <View style={styles.balance}>
                 <View style={styles.cash}>
                     <Text style={styles.yelloText}>Total {state.cash} 캐시</Text>
@@ -48,7 +69,8 @@ const CameraPayScreen = () => {
                 <View style={styles.point}>
                     <View style={styles.pointInven}>
                         <Text style={styles.text}>사용가능 포인트</Text>
-                        <Text style={styles.text}>{state.point} p</Text>
+                        <Text style={styles.text}>{state.point} p </Text>
+                        
                     </View>
                     <View style={styles.accumPoint}>
                         <Text style={styles.text}>누적 포인트</Text>
@@ -56,6 +78,7 @@ const CameraPayScreen = () => {
                     </View>
                 </View>
             </View>
+            : null}
 
 
             <View style={styles.payMenu}>
@@ -75,8 +98,9 @@ const CameraPayScreen = () => {
                     disabled={disable}
                     onChangeText={point => setPoint(point)}
                 />
+                
             </View>
-            {isLoading ? (
+            {!isLoading ? (
                  <Button mode="text" color="#ffffff"
                          onPress={async () => {
                                  const saladInt = parseInt(salad);
