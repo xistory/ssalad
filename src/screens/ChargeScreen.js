@@ -19,16 +19,16 @@ const ChargeScreen = () => {
 
             <View style={styles.balance}>
                 <View style={styles.cash}>
-                    <Text style={styles.yelloText}>Total {state.cash} 캐시</Text>
+                    <Text style={styles.yelloText}>Total {state.cash} 금화</Text>
                 </View>
                 <View style={styles.point}>
                     <View style={styles.pointInven}>
-                        <Text style={styles.text}>사용가능 포인트</Text>
-                        <Text style={styles.text}>{state.point} p</Text>
+                        <Text style={styles.text}>사용가능 당근</Text>
+                        <Text style={styles.text}>{state.point}</Text>
                     </View>
                     <View style={styles.accumPoint}>
-                        <Text style={styles.text}>누적 포인트</Text>
-                        <Text style={styles.text}>{state.accumPoint} p</Text>
+                        <Text style={styles.text}>누적 당근</Text>
+                        <Text style={styles.text}>{state.accumPoint}</Text>
                     </View>
                 </View>
             </View>
@@ -36,10 +36,10 @@ const ChargeScreen = () => {
 
             <View style={styles.chargeList}>
                 <RadioButton.Group onValueChange={value => setValue(value)} value={value}>
-                    <RadioButton.Item label="5000 캐시" value="5000" />
-                    <RadioButton.Item label="10000 캐시" value="10000" />
-                    <RadioButton.Item label="20000 캐시" value="20000" />
-                    <RadioButton.Item label="50000 캐시" value="50000" />
+                    <RadioButton.Item label="5000 금화" value="5000" />
+                    <RadioButton.Item label="10000 금화" value="10000" />
+                    <RadioButton.Item label="20000 금화" value="20000" />
+                    <RadioButton.Item label="50000 금화" value="50000" />
                 </RadioButton.Group>
             </View>
             <Button title="충전" onPress={async () => {

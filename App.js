@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -9,6 +10,7 @@ import HomeScreen from './src/screens/HomeScreen';
 import PaymentScreen from './src/screens/PaymentScreen';
 import ChargeScreen from './src/screens/ChargeScreen';
 import CameraPayScreen from './src/screens/CameraPayScreen';
+import CameraScreen from './src/screens/CameraScreen';
 
 import SignInScreen from './src/screens/SignInScreen';
 import SignUpScreen from './src/screens/SignUpScreen';
@@ -179,26 +181,33 @@ function App() {
                          </>
                     ) : (
                          <>
-                         <Stack.Screen
+                           <Stack.Screen
                              name="Home"
                              component={HomeScreen}
                              options={{ title: 'Stockholm Salad' }}
-                         />
-                         <Stack.Screen
+                           />
+                           <Stack.Screen
                              name="Payment"
                              component={PaymentScreen}
                              options={{ title: '충전금 내역' }}
-                         />
-                        <Stack.Screen
+                           />
+
+                           <Stack.Screen
                              name="Charge"
+
                              component={ChargeScreen}
                              options={{ title: '충전' }}
-                        />
-                        <Stack.Screen
+                           />
+                           <Stack.Screen
                              name="CameraPay"
                              component={CameraPayScreen}
                              options={{ title: '카메라 결제' }}
-                        />
+                           />
+                           <Stack.Screen
+                             name="Camera"
+                             component={CameraScreen}
+                             options={{ title: '카메라' }}
+                           />
                          </>
                     )}
 

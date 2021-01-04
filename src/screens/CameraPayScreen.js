@@ -1,21 +1,22 @@
 import React, {useContext, useEffect, useState } from 'react';
-import { View, StyleSheet, Text, StatusBar } from 'react-native';
+import { View, StyleSheet, Text, StatusBar, TouchableOpacity } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Context as PointContext } from '../context/PointContext';
+
 // import * as Location from 'expo-location';
 
-const CameraPayScreen = () => {
+const CameraPayScreen = ({ route, navigation }) => {
     const { state, getBalance, chargeBalance } = useContext(PointContext);
     const [isLoading, setLoading] = useState(true);
     const [salad, setSalad] = useState('');
-    const [point, setPoint] = useState('0');
-    const [accumPoint, setAccum] = useState('');
+    const [carrot, setCarrot] = useState('0');
+    const [accumCarrot, setAccum] = useState('');
     const [disable, setDisable] = useState(true);
     // const [location, setLocation] = useState(null);
     // const [errorMsg, setErrorMsg] = useState(null);
 
-    
+    const { price } = route.params;
 
     useEffect(() => {
         (async () => {
@@ -43,12 +44,12 @@ const CameraPayScreen = () => {
     }
     */
 
-    function calculateAccum(accumPoint, saladPrice) {
-        if (accumPoint < 2000) {
+    function calculateAccum(accumCarrot, saladPrice) {
+        if (accumCarrot < 2000) {
             return parseInt(saladPrice * 0.02);
-        } else if (accumPoint < 5000) {
+        } else if (accumCarrot < 5000) {
             return parseInt(saladPrice * 0.03);
-        } else if (accumPoint < 10000) {
+        } else if (accumCarrot < 10000) {
             return parseInt(saladPrice * 0.04);
         } else {
             return parseInt(saladPrice * 0.05);
@@ -64,50 +65,46 @@ const CameraPayScreen = () => {
 
             <View style={styles.balance}>
                 <View style={styles.cash}>
-                    <Text style={styles.yelloText}>Total {state.cash} 캐시</Text>
+                    <Text style={styles.yelloText}>Total {state.cash} 금화</Text>
                 </View>
-                <View style={styles.point}>
-                    <View style={styles.pointInven}>
-                        <Text style={styles.text}>사용가능 포인트</Text>
-                        <Text style={styles.text}>{state.point} p </Text>
-                        
+                <View style={styles.carrot}>
+                    <View style={styles.carrotInven}>
+                        <Text style={styles.text}>사용가능 당근</Text>
+                        <Text style={styles.text}>{state.point}</Text>
                     </View>
-                    <View style={styles.accumPoint}>
-                        <Text style={styles.text}>누적 포인트</Text>
-                        <Text style={styles.text}>{state.accumPoint} p</Text>
+                    <View style={styles.accumCarrot}>
+                        <Text style={styles.text}>누적 당근</Text>
+                        <Text style={styles.text}>{state.accumPoint}</Text>
                     </View>
                 </View>
             </View>
             : null}
 
 
-            <View style={styles.payMenu}>
-                <TextInput
-                    label="샐러드 가격"
-                    value={salad}
-                    onChangeText={salad => setSalad(salad)}
-                />
-                <Button
-                    mode="contained" color="black"
-                    
-                    onPress={() => setDisable(!disable)}
-                >포인트 사용</Button>
-                <TextInput
-                    label="사용할 포인트"
-                    value={point}
-                    disabled={disable}
-                    onChangeText={point => setPoint(point)}
-                />
-                
+          <View style={styles.payMenu}>
+            <Text style={{ color: 'black', fontSize: 40 }}>{price}원</Text>
+            <Button
+              mode="contained" color="black"
+              onPress={() => navigation.navigate('Camera')}
+            >다시 촬영</Button>
+            <Button
+              mode="contained" color="black"
+              onPress={() => setDisable(!disable)}
+            >당근 사용</Button>
+            <TextInput
+              label="사용할 당근"
+              value={carrot}
+              disabled={disable}
+              onChangeText={carrot => setCarrot(carrot)}
+            />
             </View>
             {!isLoading ? (
                  <Button mode="text" color="#ffffff"
                          onPress={async () => {
-                                 const saladInt = parseInt(salad);
-                                 const pointInt = parseInt(point);
-                                 const cashInt = saladInt - pointInt;
-                                 const accumInt = parseInt(accumPoint);
-                                 
+                                 const saladInt = parseInt(price);
+                                 const carrotInt = parseInt(carrot);
+                                 const cashInt = saladInt - carrotInt;
+                                 const accumInt = parseInt(accumCarrot);
 
                                  await chargeBalance(false, cashInt, pointInt);
                                  await chargeBalance(true, 0, calculateAccum(accumInt, saladInt));
@@ -162,18 +159,19 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    point: {
+    carrot: {
         flex: 1,
         flexDirection: 'row',
     },
-    pointInven: {
+    carrotInven: {
         flex: 1,
         alignItems: 'center',
     },
-    accumPoint: {
+    accumCarrot: {
         flex: 1,
         alignItems: 'center',
     },
+
 })
 
 

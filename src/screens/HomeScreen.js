@@ -7,11 +7,13 @@ import { AuthContext } from '../../App';
 import { Context as PointContext } from '../context/PointContext';
 
 
+
 const HomeScreen = ({ navigation }) => {
     const { signOut } = useContext(AuthContext);
     const [isLoading, setLoading] = useState(false);
     const { state, getBalance } = useContext(PointContext);
     const [accumPoint, setAccum] = useState('');
+
 
     useEffect(() => {
         setLoading(false);
@@ -126,7 +128,7 @@ const HomeScreen = ({ navigation }) => {
 
                     <View style={styles.cameraPay}>
                         <TouchableOpacity
-                            onPress={() => navigation.navigate('CameraPay')}
+                            onPress={() => navigation.navigate('Camera')}
                         >
                             <Image
                                 source={require('../../assets/camera.png')}
